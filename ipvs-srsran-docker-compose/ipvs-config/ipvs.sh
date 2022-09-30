@@ -6,8 +6,8 @@ set -x
 ipvsadm -A --sctp-service 172.18.0.103:38412 -s rr
 IPVS=/usr/sbin/ipvsadm
 VIP=172.18.0.103 #Define VIP
-VPORT=38412 #Define the virtual port of LVS
-RPORT=38412 #Define the port of Realserver
+VPORT=36412 #Define the virtual port of LVS
+RPORT=36412 #Define the port of Realserver
 
 del_realserver() { #Define the function to delete Realserver
   $IPVS -ln | grep -w $1
