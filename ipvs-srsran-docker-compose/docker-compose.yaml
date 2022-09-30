@@ -7,7 +7,7 @@ services:
       image: ubuntu:focal
       privileged: true
       command: >
-        sh -c  "apt-get update && apt-get install -y ipvsadm iproute2 inetutils-ping fping && bash /root/ipvs.sh"
+        sh -c  "apt-get update && apt-get install -y ipvsadm iproute2 inetutils-ping fping tcpdump && bash /root/ipvs.sh"
       volumes:
       - ./ipvs-config/ipvs.sh:/root/ipvs.sh
       networks:
