@@ -30,7 +30,7 @@ services:
           kind:
               ipv4_address: 172.18.0.104
 
-  networks:
-    default:
-      name: kind
-      external: true              
+networks:
+  default:
+    name: kind
+    external: true              
