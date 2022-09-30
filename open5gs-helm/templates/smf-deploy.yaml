@@ -68,8 +68,7 @@ spec:
             subPath: "smf.yaml"
           - name: open5gs-smf-diameter
             mountPath: /open5gs/config-map/diameter-smf.conf
-            subPath: "diameter-smf.conf"
-            subPath: "acl_wl.conf"            
+            subPath: "diameter-smf.conf"            
           - mountPath: "/open5gs/diameter-ca/"
             name: diameter-ca
           - mountPath: "/open5gs/tls/"

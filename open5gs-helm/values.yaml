@@ -60,8 +60,8 @@ hss:
 
 mme:
   tlsSecretName: mme-tls
-  amfOneIP: "10.240.216.72"
-  amfTwoIP: "10.240.216.73"
+  amfOneIP: "10.240.216.73"
+  amfTwoIP: "10.240.216.74"
   amfPort: "38412"  
   mcc: 208
   mnc: 93
