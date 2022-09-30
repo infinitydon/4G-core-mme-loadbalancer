@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: open5gs-mme-1
+  namespace: open5gs
+  labels:
+    epc-mode: mme-1
+spec:
+  selector:
+    epc-mode: mme-1
+  ports:
+  - protocol: SCTP
+    name: sctp  
+    port: 3868    
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: open5gs-mme-1-deployment
+  namespace: open5gs
+  labels:
+    epc-mode: mme-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      epc-mode: mme-1
+  template:
+    metadata:
+      annotations:
+        "cni.projectcalico.org/ipAddrs": "[\"{{ .Values.mme.amfOneIP }}\"]"     
+      labels:
+        epc-mode: mme-1
+    spec:
+      initContainers:
+      - name: init-mme
+        image: busybox:1.28
+        command: ['sh', '-c']
+        args:
+        - until nslookup open5gs-hss >> /dev/null; do echo waiting for hss DNS record to be ready;done;
+          until nslookup open5gs-sgwc >> /dev/null; do echo waiting for sgwc DNS record to be ready; done;
+          until nslookup open5gs-smf >> /dev/null; do echo waiting for smf DNS record to be ready; done;  
+      containers:
+      - name: mme
+        image: "{{ .Values.open5gs.image.repository }}:{{ .Values.open5gs.image.tag }}"
+        imagePullPolicy: {{ .Values.open5gs.image.pullPolicy }}
+        command: ["/bin/sh", "-c"]
+        args:
+        - sleep 10;
+          open5gs-mmed -c /open5gs/config-map/mme.yaml
+        volumeMounts:
+        - name: open5gs-mme-config
+          mountPath: /open5gs/config-map/mme.yaml
+          subPath: "mme.yaml"
+        - name: open5gs-mme-diameter
+          mountPath: /open5gs/config-map/diameter-mme.conf
+          subPath: "diameter-mme.conf"
+        - mountPath: "/open5gs/diameter-ca/"
+          name: diameter-ca
+        - mountPath: "/open5gs/tls/"
+          name: mme-tls         
+      volumes:
+        - name: open5gs-mme-config
+          configMap:
+            name: open5gs-mme-1-config
+        - name: open5gs-mme-diameter
+          configMap:
+            name: open5gs-mme-1-diameter
+        - name: diameter-ca
+          secret:
+            secretName: {{ .Values.diameter.caSecretName }}  
+        - name: mme-tls
+          secret:
+            secretName: {{ .Values.mme.tlsSecretName }}                
