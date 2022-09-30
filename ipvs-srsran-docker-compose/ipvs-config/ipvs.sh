@@ -3,9 +3,9 @@
 exec 1> /var/log/ipvsadm-log.txt 2>&1
 set -x
 
-ipvsadm -A --sctp-service 172.18.0.203:38412 -s rr
+ipvsadm -A --sctp-service 172.18.0.103:38412 -s rr
 IPVS=/usr/sbin/ipvsadm
-VIP=172.18.0.203 #Define VIP
+VIP=172.18.0.103 #Define VIP
 VPORT=38412 #Define the virtual port of LVS
 RPORT=38412 #Define the port of Realserver
 
