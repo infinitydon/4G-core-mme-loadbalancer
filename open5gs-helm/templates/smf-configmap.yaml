@@ -30,8 +30,6 @@ data:
           - 8.8.8.8
           - 8.8.4.4
         mtu: 1400
-        ctf:
-          enabled: yes
         freeDiameter: /open5gs/config-map/diameter-smf.conf
 
     nrf:

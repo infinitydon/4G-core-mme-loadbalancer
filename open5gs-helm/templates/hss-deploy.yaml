@@ -29,13 +29,6 @@ spec:
       labels:
         epc-mode: hss
     spec:
-      initContainers:
-      - name: init-hss
-        image: busybox:1.28
-        command: ['sh', '-c']
-        args:
-        - until nslookup open5gs-mme-1 >> /dev/null; do echo waiting for MME-1 to be ready;done;
-          until nslookup open5gs-mme-2 >> /dev/null; do echo waiting for MME-1 to be ready; done;
       containers:
         - name: hss
           image: "{{ .Values.open5gs.image.repository }}:{{ .Values.open5gs.image.tag }}"
