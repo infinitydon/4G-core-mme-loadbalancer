@@ -34,7 +34,7 @@ spec:
       initContainers:
       - name: init-sgwc
         image: busybox:1.28
-        command: ['sh', '-c', "until nslookup open5gs-sgwu >> /dev/null; do echo waiting for sgwu DNS record to be ready; done"]        
+        command: ['sh', '-c', "until nslookup open5gs-sgwu >> /dev/null; do echo waiting for sgwu to be ready; done"]        
       containers:
       - name: sgwc
         image: "{{ .Values.open5gs.image.repository }}:{{ .Values.open5gs.image.tag }}"

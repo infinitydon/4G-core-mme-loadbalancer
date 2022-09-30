@@ -23,3 +23,23 @@ kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.1
 kubectl create -f kind-manifest/custom-resources.yaml
 
 kubectl create ns open5gs
+
+kubectl -n open5gs create secret generic diameter-ca --from-file=open5gs-helm/tls-certs/cacert.pem
+
+kubectl -n open5gs create secret tls hss-tls \
+  --cert=open5gs-helm/tls-certs/hss.cert.pem \
+  --key=open5gs-helm/tls-certs/hss.key.pem
+  
+kubectl -n open5gs create secret tls mme-tls \
+  --cert=open5gs-helm/tls-certs/mme.cert.pem \
+  --key=open5gs-helm/tls-certs/mme.key.pem
+
+kubectl -n open5gs create secret tls pcrf-tls \
+  --cert=open5gs-helm/tls-certs/pcrf.cert.pem \
+  --key=open5gs-helm/tls-certs/pcrf.key.pem
+
+kubectl -n open5gs create secret tls smf-tls \
+  --cert=open5gs-helm/tls-certs/smf.cert.pem \
+  --key=open5gs-helm/tls-certs/smf.key.pem
+
+helm upgrade --install -n open5gs core4g open5gs-helm/
