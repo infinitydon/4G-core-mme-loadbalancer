@@ -7,11 +7,12 @@ services:
       image: ubuntu:focal
       privileged: true
       command: >
-        sh -c  "apt-get update && apt-get install -y ipvsadm && bash /root/ipvs.sh"
+        sh -c  "apt-get update && apt-get install -y ipvsadm iproute2 inetutils-ping fping && bash /root/ipvs.sh"
       volumes:
       - ./ipvs-config/ipvs.sh:/root/ipvs.sh
+      network_mode: "host"
       networks:
-        kind:
+        default:
           ipv4_address: 172.18.0.103
   srsran:
       container_name: "srsran"
@@ -27,7 +28,7 @@ services:
       depends_on:
       - mme-lb
       networks:
-          kind:
+          default:
               ipv4_address: 172.18.0.104
 
 networks:
