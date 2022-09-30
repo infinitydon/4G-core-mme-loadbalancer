@@ -43,3 +43,6 @@ kubectl -n open5gs create secret tls smf-tls \
   --key=open5gs-helm/tls-certs/smf.key.pem
 
 helm upgrade --install -n open5gs core4g open5gs-helm/
+
+# Set POD route to go via KIND worker container IP
+sudo ip route add 10.240.0.0/16 via 172.18.0.2

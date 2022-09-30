@@ -1,0 +1,28 @@
+  mme-lb:
+      container_name: "mme-lb"
+      tty: true
+      image: ubuntu:focal
+      privileged: true
+      command: >
+        sh -c  "apt-get update && apt-get install -y ipvsadm && bash /root/ipvs.sh"
+      volumes:
+      - ./ipvs-config/ipvs.sh:/root/ipvs.sh
+      networks:
+        kind:
+          ipv4_address: 172.18.0.103
+  srsran:
+      container_name: "srsran"
+      image: registry.gitlab.com/infinitydon/registry/srslte:latest
+      tty: true
+      privileged: true
+      volumes:
+      - ./srsLTE-config/enb/enb.conf:/srsLTE/build/srsenb/src/enb.conf
+      - ./srsLTE-config/enb/drb.conf:/srsLTE/build/srsenb/src/drb.conf
+      - ./srsLTE-config/enb/rr.conf:/srsLTE/build/srsenb/src/rr.conf
+      - ./srsLTE-config/enb/sib.conf:/srsLTE/build/srsenb/src/sib.conf
+      - ./srsLTE-config/ue/ue.conf:/srsLTE/build/srsenb/src/ue.conf
+      depends_on:
+      - mme-lb
+      networks:
+          kind:
+              ipv4_address: 172.18.0.104

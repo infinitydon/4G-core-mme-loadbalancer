@@ -1,0 +1,28 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: srslte
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      epc-mode: srslte
+  template:
+    metadata:
+      labels:
+        epc-mode: srslte
+    spec:
+      containers:
+      - name: srslte
+        image: registry.gitlab.com/infinitydon/registry/srslte:latest
+        securityContext:
+          privileged: true     
+        command: ["sleep"]
+        args: [ "infinity" ]
+        volumeMounts:
+          - name: srslte-lte-config
+            mountPath: /srsLTEconfig          
+      volumes:
+        - name: srslte-lte-config
+          configMap:
+            name: srslte-config
