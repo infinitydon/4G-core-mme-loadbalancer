@@ -75,3 +75,6 @@ pcrf:
 
 smf:
   tlsSecretName: smf-tls 
+
+diameter:
+  caSecretName: diameter-ca  
