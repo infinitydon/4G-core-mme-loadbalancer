@@ -31,14 +31,7 @@ spec:
         "cni.projectcalico.org/ipAddrs": "[\"{{ .Values.mme.amfTwoIP }}\"]"     
       labels:
         epc-mode: mme-2
-    spec:
-      initContainers:
-      - name: init-mme
-        image: busybox:1.28
-        command: ['sh', '-c']
-        args:
-        - until nslookup open5gs-sgwc >> /dev/null; do echo waiting for sgwc to be ready; done;
-          until nslookup open5gs-smf >> /dev/null; do echo waiting for smf to be ready; done;   
+    spec:  
       containers:
       - name: mme
         image: "{{ .Values.open5gs.image.repository }}:{{ .Values.open5gs.image.tag }}"

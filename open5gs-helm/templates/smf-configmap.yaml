@@ -29,7 +29,6 @@ data:
         dns:
           - 8.8.8.8
           - 8.8.4.4
-        mtu: 1400
         freeDiameter: /open5gs/config-map/diameter-smf.conf
 
     nrf:
