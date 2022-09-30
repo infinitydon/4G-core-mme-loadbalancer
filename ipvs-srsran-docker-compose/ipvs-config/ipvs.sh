@@ -8,7 +8,7 @@ VIP=172.18.0.103 #Define VIP
 VPORT=36412 #Define the virtual port of LVS
 RPORT=36412 #Define the port of Realserver
 
-$IPVS -A --sctp-service 172.18.0.103:38412 -s rr
+$IPVS -A --sctp-service $VIP:$VPORT -s rr
 
 del_realserver() { #Define the function to delete Realserver
   $IPVS -ln | grep -w $1
