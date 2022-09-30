@@ -24,6 +24,8 @@ kubectl create -f kind-manifest/custom-resources.yaml
 
 kubectl create ns open5gs
 
+kubectl create -f open5gs-helm/mongodb/
+
 kubectl -n open5gs create secret generic diameter-ca --from-file=open5gs-helm/tls-certs/cacert.pem
 
 kubectl -n open5gs create secret tls hss-tls \

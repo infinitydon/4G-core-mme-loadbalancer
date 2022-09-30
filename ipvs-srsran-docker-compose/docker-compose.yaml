@@ -13,7 +13,7 @@ services:
       network_mode: "host"
       networks:
         default:
-          ipv4_address: 172.18.0.103
+          ipv4_address: 172.18.0.203
   srsran:
       container_name: "srsran"
       image: registry.gitlab.com/infinitydon/registry/srslte:latest
@@ -29,7 +29,7 @@ services:
       - mme-lb
       networks:
           default:
-              ipv4_address: 172.18.0.104
+              ipv4_address: 172.18.0.204
 
 networks:
   default:
