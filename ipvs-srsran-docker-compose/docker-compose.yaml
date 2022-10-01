@@ -14,7 +14,7 @@ services:
       - ./ipvs-config/ipvs.sh:/root/ipvs.sh
       networks:
         default:
-          ipv4_address: 172.18.0.103
+          ipv4_address: 172.18.0.105
   srsran:
       container_name: "srsran"
       image: registry.gitlab.com/infinitydon/registry/srslte:latest
