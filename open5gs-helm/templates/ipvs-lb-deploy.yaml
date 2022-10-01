@@ -1,0 +1,38 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: ipvs-lb
+  namespace: open5gs
+  labels:
+    epc-mode: ipvs-lb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      epc-mode: ipvs-lb
+  template:
+    metadata:
+      annotations:
+        "cni.projectcalico.org/ipAddrs": "[\"{{ .Values.lb.IP }}\"]"     
+      labels:
+        epc-mode: ipvs-lb
+    spec:
+      containers:
+      - name: mme
+        image: "{{ .Values.lb.image.repository }}:{{ .Values.lb.image.tag }}"
+        imagePullPolicy: {{ .Values.lb.image.pullPolicy }}
+        securityContext:
+          privileged: true        
+        command: ["/bin/sh", "-c"]
+        args:
+        - sleep 10;
+          apt-get update && apt-get install -y ipvsadm iproute2 inetutils-ping fping tcpdump;
+          bash /root/ipvs.sh
+        volumeMounts:
+        - name: lb-script
+          mountPath: /root/ipvs.sh
+          subPath: "ipvs.sh"       
+      volumes:
+        - name: lb-script
+          configMap:
+            name: ipvs-lb-script

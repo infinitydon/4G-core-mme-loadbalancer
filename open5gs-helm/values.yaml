@@ -77,4 +77,11 @@ smf:
   tlsSecretName: smf-tls 
 
 diameter:
-  caSecretName: diameter-ca  
+  caSecretName: diameter-ca 
+
+lb:
+  image:
+    repository: ubuntu
+    pullPolicy: IfNotPresent
+    tag: "focal" 
+  IP: "10.240.216.75"
