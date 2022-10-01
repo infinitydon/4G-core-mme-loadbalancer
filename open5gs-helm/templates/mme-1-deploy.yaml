@@ -40,7 +40,8 @@ spec:
           privileged: true        
         command: ["/bin/sh", "-c"]
         args:
-        - sleep 10;       
+        - sleep 10;
+          ip route add 172.18.0.104 via {{ .Values.lb.IP }};
           open5gs-mmed -c /open5gs/config-map/mme.yaml
         volumeMounts:
         - name: open5gs-mme-config

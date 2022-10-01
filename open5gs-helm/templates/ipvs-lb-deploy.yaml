@@ -27,6 +27,7 @@ spec:
         args:
         - sleep 10;
           apt-get update && apt-get install -y ipvsadm iproute2 inetutils-ping fping tcpdump;
+          sysctl -w net.ipv4.ip_forward=1;
           bash /root/ipvs.sh
         volumeMounts:
         - name: lb-script
