@@ -7,7 +7,7 @@ metadata:
     epc-mode: mme-1
 spec:
   selector:
-    epc-mode: mme-1
+    mme-svc: general
   ports:
   - protocol: SCTP
     name: sctp  
@@ -31,6 +31,7 @@ spec:
         "cni.projectcalico.org/ipAddrs": "[\"{{ .Values.mme.amfOneIP }}\"]"     
       labels:
         epc-mode: mme-1
+        mme-svc: general
     spec:
       containers:
       - name: mme
