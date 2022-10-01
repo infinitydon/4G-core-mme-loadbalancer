@@ -36,9 +36,18 @@ spec:
       - name: mme
         image: "{{ .Values.open5gs.image.repository }}:{{ .Values.open5gs.image.tag }}"
         imagePullPolicy: {{ .Values.open5gs.image.pullPolicy }}
+        securityContext:
+          privileged: true         
         command: ["/bin/sh", "-c"]
         args:
         - sleep 10;
+          sysctl net.ipv4.conf.all.arp_ignore=1;
+          sysctl net.ipv4.conf.all.arp_announce=2;
+          sysctl net.ipv4.conf.tunl0.arp_ignore=1;
+          sysctl net.ipv4.conf.tunl0.arp_announce=2;
+          sysctl net.ipv4.conf.tunl0.rp_filter=2;
+          sysctl net.ipv4.ip_forward=1;
+          ip addr add dev tunl0 172.18.0.103/32 brd 172.18.0.103;         
           open5gs-mmed -c /open5gs/config-map/mme.yaml
         volumeMounts:
         - name: open5gs-mme-config

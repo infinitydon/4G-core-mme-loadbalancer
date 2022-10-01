@@ -48,3 +48,10 @@ helm upgrade --install -n open5gs core4g open5gs-helm/
 
 # Set POD route to go via KIND worker container IP
 sudo ip route add 10.240.0.0/16 via 172.18.0.2
+
+# Inside MME-LB container:
+sysctl -w net.ipv4.vs.conntrack=1
+iptables -t nat -A POSTROUTING -m ipvs --vaddr 172.18.0.103/32 --vport 36412 -j SNAT --to-source 172.18.0.103
+
+iptables -t nat -A POSTROUTING -o eth0 --dst 10.240.216.73 -m ipvs --ipvs --vaddr 172.18.0.103 --vport 36412 --vmethod masq -j SNAT --to-source 172.18.0.103
+iptables -t nat -A POSTROUTING -o eth0 --dst 10.240.216.74 -m ipvs --ipvs --vaddr 172.18.0.103 --vport 36412 --vmethod masq -j SNAT --to-source 172.18.0.103
