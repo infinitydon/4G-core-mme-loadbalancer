@@ -4,7 +4,7 @@ metadata:
   name: open5gs-mme-1
   namespace: open5gs
   labels:
-    epc-mode: mme-1
+    mme-svc: general
 spec:
   selector:
     mme-svc: general
