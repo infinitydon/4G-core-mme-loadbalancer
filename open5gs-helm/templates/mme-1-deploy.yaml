@@ -43,9 +43,9 @@ spec:
         args:
         - sleep 10;
           apt-get update;apt-get install tcpdump inetutils-ping arptables -y;
-          ip link set up tunl1;
-          ip addr add 172.18.0.103 dev tunl1;
-          sysctl w net.ipv4.conf.tunl1.rp_filter=0;
+          ip link set up tunl0;
+          ip addr add 172.18.0.103 dev tunl0;
+          sysctl w net.ipv4.conf.tunl0.rp_filter=0;
           arptables -A IN -d 172.18.0.103 -j DROP;
           arptables -A OUT -s 172.18.0.103 -j mangle --mangle-ip-s {{ .Values.mme.amfOneIP }};
           open5gs-mmed -c /open5gs/config-map/mme.yaml

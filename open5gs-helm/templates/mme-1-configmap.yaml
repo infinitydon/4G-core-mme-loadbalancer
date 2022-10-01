@@ -15,7 +15,7 @@ data:
     mme:
         freeDiameter: /open5gs/config-map/diameter-mme.conf
         s1ap:
-           dev: tunl1
+           dev: tunl0
         gtpc:
            dev: eth0
         gummei:
