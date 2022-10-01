@@ -28,7 +28,7 @@ services:
       - ./srsLTE-config/enb/drb.conf:/srsLTE/build/srsenb/src/drb.conf
       - ./srsLTE-config/enb/rr.conf:/srsLTE/build/srsenb/src/rr.conf
       - ./srsLTE-config/enb/sib.conf:/srsLTE/build/srsenb/src/sib.conf
-      - ./srsLTE-config/ue/ue.conf:/srsLTE/build/srsenb/src/ue.conf
+      - ./srsLTE-config/ue/ue.conf:/srsLTE/build/srsue/src/ue.conf
       depends_on:
       - mme-lb
       networks:

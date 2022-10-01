@@ -16,7 +16,7 @@ curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.16.0/kind-linux-amd64
 chmod +x ./kind
 sudo mv ./kind /usr/local/bin/kind
 
-sudo kind create cluster -n open5gs-4g-core --config=/tmp/kind-config.yaml
+sudo kind create cluster -n open5gs-4g-core --config=kind-manifest/kind-config.yaml
 
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.1/manifests/tigera-operator.yaml
 
@@ -46,10 +46,10 @@ kubectl -n open5gs create secret tls smf-tls \
 
 helm upgrade --install -n open5gs core4g open5gs-helm/
 
-# Set POD route to go via KIND worker container IP
-sudo ip route add 10.240.0.0/16 via 172.18.0.2
+# Set POD route to go via KIND worker-node container IP
+sudo ip route add 10.240.0.0/16 via 172.18.0.3
 
-# Inside MME-LB container:
+# Inside MME-LB container. no need to run, it has been included in the docker-compose
 sysctl -w net.ipv4.vs.conntrack=1
 iptables -t nat -A POSTROUTING -m ipvs --vaddr 10.240.216.75 --vport 36412 -j SNAT --to-source 172.18.0.103
 
@@ -57,3 +57,9 @@ iptables -t nat -A POSTROUTING -o eth0 --dst 10.240.216.73 -m ipvs --ipvs --vadd
 iptables -t nat -A POSTROUTING -o eth0 --dst 10.240.216.74 -m ipvs --ipvs --vaddr 172.18.0.105 --vport 36412 --vmethod masq -j SNAT --to-source 172.18.0.105
 
 tcpdump -nnni eth0 sctp port 36412
+
+# Inside MongoDB POD
+apt-get update;apt-get install wget -y
+wget https://github.com/open5gs/open5gs/raw/main/misc/db/open5gs-dbctl;chmod +x open5gs-dbctl
+./open5gs-dbctl add 208930100001111 8baf473f2f8fd09487cccbd7097c6862 e734f8734007d6c5ce7a0508809e7e9c
+./open5gs-dbctl showall
