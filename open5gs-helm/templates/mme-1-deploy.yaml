@@ -45,9 +45,12 @@ spec:
           apt-get update;apt-get install tcpdump inetutils-ping arptables -y;
           ip link set up tunl0;
           ip addr add 20.20.20.1 dev tunl0;
-          sysctl w net.ipv4.conf.tunl0.rp_filter=0;
-          arptables -A IN -d 20.20.20.1 -j DROP;
-          arptables -A OUT -s 20.20.20.1 -j mangle --mangle-ip-s {{ .Values.mme.amfOneIP }};
+          sysctl -w net.ipv4.conf.tunl0.rp_filter=0;
+          sysctl -w net.ipv4.conf.all.arp_ignore=1;
+          sysctl -w net.ipv4.conf.all.arp_announce=2;
+          sysctl -w net.ipv4.conf.tunl0.arp_ignore=1;
+          sysctl -w net.ipv4.conf.tunl0.arp_announce=2;
+          sysctl -w net.ipv4.conf.tunl0.rp_filter=2;
           open5gs-mmed -c /open5gs/config-map/mme.yaml
         volumeMounts:
         - name: open5gs-mme-config
