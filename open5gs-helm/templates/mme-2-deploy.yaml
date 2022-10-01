@@ -41,7 +41,12 @@ spec:
         command: ["/bin/sh", "-c"]
         args:
         - sleep 10;
-          apt-get update;apt-get install tcpdump inetutils-ping -y;
+          apt-get update;apt-get install tcpdump inetutils-ping arptables -y;
+          ip link set up tunl2;
+          ip addr add 172.18.0.103 dev tunl2;
+          sysctl w net.ipv4.conf.tunl0.rp_filter=0;
+          arptables -A IN -d 172.18.0.103 -j DROP;
+          arptables -A OUT -s 172.18.0.103 -j mangle --mangle-ip-s {{ .Values.mme.amfTwoIP }};
           open5gs-mmed -c /open5gs/config-map/mme.yaml
         volumeMounts:
         - name: open5gs-mme-config
