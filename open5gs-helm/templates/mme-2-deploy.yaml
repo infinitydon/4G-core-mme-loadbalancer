@@ -31,7 +31,6 @@ spec:
         "cni.projectcalico.org/ipAddrs": "[\"{{ .Values.mme.amfTwoIP }}\"]"     
       labels:
         epc-mode: mme-2
-        mme-svc: general
     spec:  
       containers:
       - name: mme
@@ -42,9 +41,7 @@ spec:
         command: ["/bin/sh", "-c"]
         args:
         - sleep 10;
-          ip addr add 10.240.216.75 dev lo;
-          sysctl -w net.ipv4.conf.all.arp_ignore=1;
-          sysctl -w net.ipv4.conf.all.arp_announce=2;
+          apt-get update;apt-get install tcpdump inetutils-ping -y;
           open5gs-mmed -c /open5gs/config-map/mme.yaml
         volumeMounts:
         - name: open5gs-mme-config
