@@ -4,7 +4,7 @@ exec 1> /var/log/ipvsadm-log.txt 2>&1
 set -x
 
 IPVS=/usr/sbin/ipvsadm
-VIP=172.18.0.103 #Define VIP
+VIP=20.20.20.1 #Define VIP
 VPORT=36412 #Define the virtual port of LVS
 RPORT=36412 #Define the port of Realserver
 
