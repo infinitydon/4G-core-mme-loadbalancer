@@ -55,3 +55,5 @@ iptables -t nat -A POSTROUTING -m ipvs --vaddr 10.240.216.75 --vport 36412 -j SN
 
 iptables -t nat -A POSTROUTING -o eth0 --dst 10.240.216.73 -m ipvs --ipvs --vaddr 10.240.216.75 --vport 36412 --vmethod masq -j SNAT --to-source 10.240.216.75
 iptables -t nat -A POSTROUTING -o eth0 --dst 10.240.216.74 -m ipvs --ipvs --vaddr 10.240.216.75 --vport 36412 --vmethod masq -j SNAT --to-source 10.240.216.75
+
+tcpdump -nnni eth0 sctp port 36412

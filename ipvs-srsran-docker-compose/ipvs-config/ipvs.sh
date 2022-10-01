@@ -29,7 +29,7 @@ add_realserver() {  #Define the function of adding Realserver
     echo "Host $1 is already in the ipvsadm table, no further action needed"
   else
      echo "Host $i is not in the ipvsadm table, proceeding to add it"
-     $IPVS -a --sctp-service $VIP:$VPORT -r $Host:$RPORT -i
+     $IPVS -a --sctp-service $VIP:$VPORT -r $Host:$RPORT -m
      echo "Host $1 has been added"
   fi
 }
