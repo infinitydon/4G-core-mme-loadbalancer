@@ -60,8 +60,8 @@ hss:
 
 mme:
   tlsSecretName: mme-tls
-  amfOneIP: "10.240.216.73"
-  amfTwoIP: "10.240.216.74"
+  amfOneIP: "10.240.216.173"
+  amfTwoIP: "10.240.216.174"
   amfPort: "38412"  
   mcc: 208
   mnc: 93
@@ -84,4 +84,4 @@ lb:
     repository: ubuntu
     pullPolicy: IfNotPresent
     tag: "focal" 
-  IP: "10.240.216.75"
+  IP: "10.240.216.175"

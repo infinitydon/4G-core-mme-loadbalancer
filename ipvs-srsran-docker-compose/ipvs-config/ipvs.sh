@@ -35,7 +35,7 @@ add_realserver() {  #Define the function of adding Realserver
 }
 
 while true; do
-    for I in {73,74};do 
+    for I in {173,174};do 
 
         Host=10.240.216.$I
 
