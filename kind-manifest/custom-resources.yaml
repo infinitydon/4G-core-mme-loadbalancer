@@ -12,7 +12,7 @@ spec:
     - blockSize: 26
       cidr: 10.240.0.0/16
       nodeSelector: all()
-      natOutgoing: false
+      natOutgoing: Disabled
 
 ---
 
