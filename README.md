@@ -27,6 +27,12 @@ kubectl create ns open5gs
 
 kubectl create -f open5gs-helm/mongodb/
 
+wget https://github.com/k8snetworkplumbingwg/multus-cni/archive/refs/tags/v3.9.1.tar.gz
+
+tar -xzf v3.9.1.tar.gz
+
+kubectl apply -f multus-cni-3.9.1/deployments/multus-daemonset-thick-plugin.yml
+
 kubectl -n open5gs create secret generic diameter-ca --from-file=open5gs-helm/tls-certs/cacert.pem
 
 kubectl -n open5gs create secret tls hss-tls \

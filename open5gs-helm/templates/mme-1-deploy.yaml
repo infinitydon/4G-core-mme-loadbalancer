@@ -28,7 +28,13 @@ spec:
   template:
     metadata:
       annotations:
-        "cni.projectcalico.org/ipAddrs": "[\"{{ .Values.mme.amfOneIP }}\"]"     
+        k8s.v1.cni.cncf.io/networks: '[
+          {
+             "name" : "docker-network",
+             "interface": "eth1",
+             "ips": ["172.18.0.123/16"]
+          }
+          ]'
       labels:
         epc-mode: mme-1
         mme-svc: general
