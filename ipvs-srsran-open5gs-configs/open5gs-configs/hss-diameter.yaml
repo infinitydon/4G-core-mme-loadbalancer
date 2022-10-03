@@ -263,5 +263,3 @@ LoadExtension = "/usr/lib/x86_64-linux-gnu/freeDiameter/dict_dcca_3gpp.fdx";
 #ConnectPeer = "old.diameter.serv" { TcTimer = 60; TLS_old_method; No_SCTP; Port=3868; } ;
 ConnectPeer = "mme1.localdomain" { ConnectTo = "172.21.0.103"; No_TLS; };
 ConnectPeer = "mme2.localdomain" { ConnectTo = "172.21.0.104"; No_TLS; };
-
-##############################################################

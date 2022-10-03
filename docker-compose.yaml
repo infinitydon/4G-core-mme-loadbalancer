@@ -43,17 +43,16 @@ services:
       image: registry.gitlab.com/infinitydon/registry/open5gs-aio:v2.4.9-prom
       privileged: true
       command: >
-        sh -c "
-          ip link set up tunl0 && 
-          ip addr add 20.20.20.1 dev tunl0 && 
-          sysctl -w net.ipv4.conf.tunl0.rp_filter=0 && 
-          sysctl -w net.ipv4.conf.all.arp_ignore=1 && 
-          sysctl -w net.ipv4.conf.all.arp_announce=2 && 
-          sysctl -w net.ipv4.conf.tunl0.arp_ignore=1 && 
-          sysctl -w net.ipv4.conf.tunl0.arp_announce=2 && 
-          sysctl -w net.ipv4.conf.tunl0.rp_filter=2 && 
-          echo 1 > /proc/sys/net/ipv4/ip_forward && 
-          open5gs-mmed -c /open5gs/configs/mme-1.yaml"
+        sh -c "ip link set up tunl0 && 
+               ip addr add 20.20.20.1 dev tunl0 && 
+               sysctl -w net.ipv4.conf.tunl0.rp_filter=0 && 
+               sysctl -w net.ipv4.conf.all.arp_ignore=1 && 
+               sysctl -w net.ipv4.conf.all.arp_announce=2 && 
+               sysctl -w net.ipv4.conf.tunl0.arp_ignore=1 && 
+               sysctl -w net.ipv4.conf.tunl0.arp_announce=2 && 
+               sysctl -w net.ipv4.conf.tunl0.rp_filter=2 && 
+               echo 1 > /proc/sys/net/ipv4/ip_forward && 
+               open5gs-mmed -c /open5gs/configs/mme-1.yaml"
       volumes:
       - ./ipvs-srsran-open5gs-configs/open5gs-configs/mme.yaml:/open5gs/configs/mme-1.yaml
       - ./ipvs-srsran-open5gs-configs/open5gs-configs/mme-1-diameter.yaml:/open5gs/config-map/mme-1-diameter.yaml
@@ -65,17 +64,16 @@ services:
       image: registry.gitlab.com/infinitydon/registry/open5gs-aio:v2.4.9-prom
       privileged: true
       command: >
-        sh -c "
-          ip link set up tunl0 && 
-          ip addr add 20.20.20.1 dev tunl0 && 
-          sysctl -w net.ipv4.conf.tunl0.rp_filter=0 && 
-          sysctl -w net.ipv4.conf.all.arp_ignore=1 && 
-          sysctl -w net.ipv4.conf.all.arp_announce=2 && 
-          sysctl -w net.ipv4.conf.tunl0.arp_ignore=1 && 
-          sysctl -w net.ipv4.conf.tunl0.arp_announce=2 && 
-          sysctl -w net.ipv4.conf.tunl0.rp_filter=2 && 
-          echo 1 > /proc/sys/net/ipv4/ip_forward && 
-          open5gs-mmed -c /open5gs/configs/mme-2.yaml"
+        sh -c "ip link set up tunl0 && 
+               ip addr add 20.20.20.1 dev tunl0 && 
+               sysctl -w net.ipv4.conf.tunl0.rp_filter=0 && 
+               sysctl -w net.ipv4.conf.all.arp_ignore=1 && 
+               sysctl -w net.ipv4.conf.all.arp_announce=2 && 
+               sysctl -w net.ipv4.conf.tunl0.arp_ignore=1 && 
+               sysctl -w net.ipv4.conf.tunl0.arp_announce=2 && 
+               sysctl -w net.ipv4.conf.tunl0.rp_filter=2 && 
+               echo 1 > /proc/sys/net/ipv4/ip_forward && 
+               open5gs-mmed -c /open5gs/configs/mme-2.yaml"
       volumes:
       - ./ipvs-srsran-open5gs-configs/open5gs-configs/mme.yaml:/open5gs/configs/mme-2.yaml
       - ./ipvs-srsran-open5gs-configs/open5gs-configs/mme-2-diameter.yaml:/open5gs/config-map/mme-2-diameter.yaml
@@ -96,6 +94,8 @@ services:
       container_name: "open5gs-pcrf"
       image: registry.gitlab.com/infinitydon/registry/open5gs-aio:v2.4.9-prom
       command: ["open5gs-pcrfd", "-c", "/open5gs/configs/pcrf.yaml"]
+      depends_on:
+      - mongodb      
       volumes:
       - ./ipvs-srsran-open5gs-configs/open5gs-configs/pcrf.yaml:/open5gs/configs/pcrf.yaml
       - ./ipvs-srsran-open5gs-configs/open5gs-configs/pcrf-diameter.yaml:/open5gs/config-map/pcrf-diameter.yaml
