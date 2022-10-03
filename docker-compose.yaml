@@ -188,7 +188,10 @@ services:
       networks:
           default:
               ipv4_address: 172.21.0.112
-
+volumes:
+  mongodbdata-open5gs-5g: {}
+  mytb-data:
+    external: true
 networks:
    open5gs:
       driver: bridge
