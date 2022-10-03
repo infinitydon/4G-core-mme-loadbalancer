@@ -12,7 +12,7 @@ services:
       open5gs:
         ipv4_address: 172.21.0.100
   webui:
-      image: registry.gitlab.com/infinitydon/registry/open5gs-webui:v2.4.9-prom
+      image: registry.gitlab.com/infinitydon/registry/open5gs-webui:v2.4.5
       container_name: open5gs-webui
       expose:
       - "3000/tcp"
