@@ -33,6 +33,10 @@ tar -xzf v3.9.1.tar.gz
 
 kubectl apply -f multus-cni-3.9.1/deployments/multus-daemonset-thick-plugin.yml
 
+docker network create --subnet 172.20.0.0/16 ran-core
+
+docker network connect --ip 172.20.128.2 ran-core open5gs-4g-core-worker
+
 kubectl -n open5gs create secret generic diameter-ca --from-file=open5gs-helm/tls-certs/cacert.pem
 
 kubectl -n open5gs create secret tls hss-tls \
