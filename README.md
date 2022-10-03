@@ -17,7 +17,7 @@ curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.16.0/kind-linux-amd64
 chmod +x ./kind
 sudo mv ./kind /usr/local/bin/kind
 
-sudo kind create cluster -n open5gs-4g-core --config=kind-manifest/kind-config.yaml
+sudo kind create cluster -n open5gs-4g-core --config=kind-manifest/cluster-config.yaml
 
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.1/manifests/tigera-operator.yaml
 
