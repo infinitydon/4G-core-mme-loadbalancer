@@ -8,7 +8,7 @@ services:
       privileged: true
       command: >
         sh -c  "apt-get update && apt-get install -y iptables ipvsadm iproute2 inetutils-ping fping tcpdump &&  
-        ip route add 10.240.0.0/16 via 172.18.0.3 &&  
+        ip route add 10.240.0.0/16 via 172.18.0.3 && echo 1 > /proc/sys/net/ipv4/ip_forward && 
         bash /root/ipvs.sh"
       volumes:
       - ./ipvs-config/ipvs.sh:/root/ipvs.sh
