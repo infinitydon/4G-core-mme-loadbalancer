@@ -22,7 +22,7 @@ smf:
 nrf:
  sbi:
   - name: 
-    - open5gs-nrf-svc-pool
+    - open5gs-nrf
     port: 7777
 upf:
   pfcp:

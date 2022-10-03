@@ -105,7 +105,7 @@ No_IPv6;
 # Default : NO DEFAULT
 #TLS_Cred = "<x509 certif file.PEM>" , "<x509 private key file.PEM>";
 #TLS_Cred = "/etc/ssl/certs/freeDiameter.pem", "/etc/ssl/private/freeDiameter.key";
-TLS_Cred = "/open5gs/tls/tls.crt", "/open5gs/tls/tls.key";
+#TLS_Cred = "/open5gs/tls/tls.crt", "/open5gs/tls/tls.key";
 
 # Certificate authority / trust anchors
 # The file containing the list of trusted Certificate Authorities (PEM list)
@@ -113,7 +113,7 @@ TLS_Cred = "/open5gs/tls/tls.crt", "/open5gs/tls/tls.key";
 # The directive can appear several times to specify several files.
 # Default : GNUTLS default behavior
 #TLS_CA = "<file.PEM>";
-TLS_CA = "/open5gs/diameter-ca/cacert.pem";
+#TLS_CA = "/open5gs/diameter-ca/cacert.pem";
 
 # Certificate Revocation List file
 # The information about revoked certificates.
@@ -131,7 +131,7 @@ TLS_CA = "/open5gs/diameter-ca/cacert.pem";
 # Default : "NORMAL"
 # Example: TLS_Prio = "NONE:+VERS-TLS1.1:+AES-128-CBC:+RSA:+SHA1:+COMP-NULL";
 #TLS_Prio = "NORMAL";
-TLS_Prio = "NONE:+VERS-TLS1.1:+AES-128-CBC:+RSA:+SHA1:+COMP-NULL";
+#TLS_Prio = "NONE:+VERS-TLS1.1:+AES-128-CBC:+RSA:+SHA1:+COMP-NULL";
 
 # Diffie-Hellman parameters size
 # Set the number of bits for generated DH parameters
