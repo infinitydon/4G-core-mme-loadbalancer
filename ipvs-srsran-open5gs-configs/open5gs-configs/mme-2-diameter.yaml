@@ -262,5 +262,3 @@ LoadExtension = "/usr/lib/x86_64-linux-gnu/freeDiameter/dict_dcca_3gpp.fdx";
 #ConnectPeer = "aaa.wide.ad.jp";
 #ConnectPeer = "old.diameter.serv" { TcTimer = 60; TLS_old_method; No_SCTP; Port=3868; } ;
 ConnectPeer = "hss.localdomain" { ConnectTo = "172.21.0.105"; No_TLS; };
-
-##############################################################
