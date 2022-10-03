@@ -1,0 +1,30 @@
+logger:
+    file: /var/log/open5gs/smf.log
+    #level: debug
+parameter:
+    no_ipv6: true
+smf:
+    sbi:
+       dev: eth0
+    gtpc:
+       dev: eth0
+    gtpu:
+       dev: eth0           
+    pfcp:
+       dev: eth0
+    subnet:
+     - addr: 10.45.0.1/16
+       apn: internet
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    freeDiameter: /open5gs/config-map/smf-diameter.yaml
+nrf:
+ sbi:
+  - name: 
+    - open5gs-nrf-svc-pool
+    port: 7777
+upf:
+  pfcp:
+   - name: open5gs-upf
+     apn: internet

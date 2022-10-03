@@ -1,0 +1,38 @@
+logger:
+    file: /var/log/open5gs/mme.log
+
+parameter:
+
+mme:
+    freeDiameter: /open5gs/config-map/mme-1-diameter.yaml
+    s1ap:
+        dev: eth0
+    gtpc:
+        dev: eth0
+    gummei:
+      plmn_id:
+        mcc: 208
+        mnc: 93
+      mme_gid: 2
+      mme_code: 1
+    tai:
+      plmn_id:
+        mcc: 208
+        mnc: 93
+      tac: 7
+    security:
+        integrity_order : [ EIA1, EIA2, EIA0 ]
+        ciphering_order : [ EEA0, EEA1, EEA2 ]
+    network_name:
+        full: Open5GS
+    mme_name: open5gs-mme1
+
+sgwc:
+    gtpc:
+      - addr: 172.21.0.107
+smf:
+  gtpc:
+    - addr: 172.21.0.109
+metrics:
+    addr: 0.0.0.0
+    port: 9090

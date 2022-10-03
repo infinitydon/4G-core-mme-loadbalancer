@@ -1,0 +1,6 @@
+logger:
+    file: /var/log/open5gs/nrf.log
+nrf:
+    sbi:
+      - dev: eth0
+        port: 7777

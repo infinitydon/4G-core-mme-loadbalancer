@@ -1,0 +1,9 @@
+db_uri: mongodb://mongodb:27017/open5gs
+    
+logger:
+    file: /var/log/open5gs/hss.log
+    
+parameter:
+    
+hss:
+    freeDiameter: /open5gs/config-map/hss-diameter.yaml

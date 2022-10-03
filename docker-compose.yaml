@@ -1,0 +1,200 @@
+version: "3.9"
+   
+services:
+  mongodb:
+    container_name: "mongodb"
+    image: mongo
+    expose:
+    - "27017/tcp"
+    volumes:
+    - mongodbdata-open5gs-5g:/var/lib/mongodb
+    networks:
+      open5gs:
+        ipv4_address: 172.21.0.100
+  webui:
+      image: registry.gitlab.com/infinitydon/registry/open5gs-webui:v2.4.9-prom
+      container_name: open5gs-webui
+      expose:
+      - "3000/tcp"
+      ports:
+      - "3000:3000"
+      depends_on:
+      - mongodb
+      environment:
+      - DB_URI=mongodb://mongodb/open5gs
+      - HOSTNAME=0.0.0.0
+      - NODE_ENV=production
+      networks:
+        open5gs:
+          ipv4_address: 172.21.0.101
+  open5gs-nrf:
+      container_name: "open5gs-nrf"
+      image: registry.gitlab.com/infinitydon/registry/open5gs-aio:v2.4.9-prom
+      command: ["open5gs-nrfd", "-c", "/open5gs/configs/nrf.yaml"]
+      volumes:
+      - ./ipvs-srsran-open5gs-configs/open5gs-configs/nrf.yaml:/open5gs/configs/nrf.yaml
+      expose:
+      - "80/tcp"
+      networks:
+        open5gs:
+          ipv4_address: 172.21.0.102
+  open5gs-mme-1:
+      container_name: "open5gs-mme"
+      image: registry.gitlab.com/infinitydon/registry/open5gs-aio:v2.4.9-prom
+      privileged: true
+      command: >
+        sh -c "
+          ip link set up tunl0 && 
+          ip addr add 20.20.20.1 dev tunl0 && 
+          sysctl -w net.ipv4.conf.tunl0.rp_filter=0 && 
+          sysctl -w net.ipv4.conf.all.arp_ignore=1 && 
+          sysctl -w net.ipv4.conf.all.arp_announce=2 && 
+          sysctl -w net.ipv4.conf.tunl0.arp_ignore=1 && 
+          sysctl -w net.ipv4.conf.tunl0.arp_announce=2 && 
+          sysctl -w net.ipv4.conf.tunl0.rp_filter=2 && 
+          echo 1 > /proc/sys/net/ipv4/ip_forward && 
+          open5gs-mmed -c /open5gs/configs/mme-1.yaml"
+      volumes:
+      - ./ipvs-srsran-open5gs-configs/open5gs-configs/mme.yaml:/open5gs/configs/mme-1.yaml
+      - ./ipvs-srsran-open5gs-configs/open5gs-configs/mme-1-diameter.yaml:/open5gs/config-map/mme-1-diameter.yaml
+      networks:
+        open5gs:
+          ipv4_address: 172.21.0.103
+  open5gs-mme-2:
+      container_name: "open5gs-mme"
+      image: registry.gitlab.com/infinitydon/registry/open5gs-aio:v2.4.9-prom
+      privileged: true
+      command: >
+        sh -c "
+          ip link set up tunl0 && 
+          ip addr add 20.20.20.1 dev tunl0 && 
+          sysctl -w net.ipv4.conf.tunl0.rp_filter=0 && 
+          sysctl -w net.ipv4.conf.all.arp_ignore=1 && 
+          sysctl -w net.ipv4.conf.all.arp_announce=2 && 
+          sysctl -w net.ipv4.conf.tunl0.arp_ignore=1 && 
+          sysctl -w net.ipv4.conf.tunl0.arp_announce=2 && 
+          sysctl -w net.ipv4.conf.tunl0.rp_filter=2 && 
+          echo 1 > /proc/sys/net/ipv4/ip_forward && 
+          open5gs-mmed -c /open5gs/configs/mme-2.yaml"
+      volumes:
+      - ./ipvs-srsran-open5gs-configs/open5gs-configs/mme.yaml:/open5gs/configs/mme-2.yaml
+      - ./ipvs-srsran-open5gs-configs/open5gs-configs/mme-2-diameter.yaml:/open5gs/config-map/mme-2-diameter.yaml
+      networks:
+        open5gs:
+          ipv4_address: 172.21.0.104  
+  open5gs-hss:
+      container_name: "open5gs-hss"
+      image: registry.gitlab.com/infinitydon/registry/open5gs-aio:v2.4.9-prom
+      command: ["open5gs-hssd", "-c", "/open5gs/configs/hss.yaml"]
+      volumes:
+      - ./ipvs-srsran-open5gs-configs/open5gs-configs/hss.yaml:/open5gs/configs/hss.yaml
+      - ./ipvs-srsran-open5gs-configs/open5gs-configs/hss-diameter.yaml:/open5gs/config-map/hss-diameter.yaml
+      networks:
+        open5gs:
+          ipv4_address: 172.21.0.105
+  open5gs-pcrf:
+      container_name: "open5gs-pcrf"
+      image: registry.gitlab.com/infinitydon/registry/open5gs-aio:v2.4.9-prom
+      command: ["open5gs-pcrfd", "-c", "/open5gs/configs/pcrf.yaml"]
+      volumes:
+      - ./ipvs-srsran-open5gs-configs/open5gs-configs/pcrf.yaml:/open5gs/configs/pcrf.yaml
+      - ./ipvs-srsran-open5gs-configs/open5gs-configs/pcrf-diameter.yaml:/open5gs/config-map/pcrf-diameter.yaml
+      networks:
+        open5gs:
+          ipv4_address: 172.21.0.106
+  open5gs-sgwc:
+      container_name: "open5gs-sgwc"
+      image: registry.gitlab.com/infinitydon/registry/open5gs-aio:v2.4.9-prom
+      command: ["open5gs-sgwcd", "-c", "/open5gs/configs/sgwc.yaml"]
+      volumes:
+      - ./ipvs-srsran-open5gs-configs/open5gs-configs/sgwc.yaml:/open5gs/configs/sgwc.yaml
+      networks:
+        open5gs:
+          ipv4_address: 172.21.0.107
+  open5gs-sgwu:
+      container_name: "open5gs-sgwu"
+      image: registry.gitlab.com/infinitydon/registry/open5gs-aio:v2.4.9-prom
+      command: ["open5gs-sgwud", "-c", "/open5gs/configs/sgwu.yaml"]
+      volumes:
+      - ./ipvs-srsran-open5gs-configs/open5gs-configs/sgwu.yaml:/open5gs/configs/sgwu.yaml
+      networks:
+        open5gs:
+          ipv4_address: 172.21.0.108          
+  open5gs-smf:
+      container_name: "open5gs-smf"
+      image: registry.gitlab.com/infinitydon/registry/open5gs-aio:v2.4.9-prom
+      depends_on:
+      - open5gs-nrf
+      command: ["open5gs-smfd", "-c", "/open5gs/configs/smf.yaml"]
+      volumes:
+      - ./ipvs-srsran-open5gs-configs/open5gs-configs/smf.yaml:/open5gs/configs/smf.yaml
+      - ./ipvs-srsran-open5gs-configs/open5gs-configs/smf-diameter.yaml:/open5gs/config-map/smf-diameter.yaml
+      depends_on:
+        - open5gs-nrf
+      networks:
+        open5gs:
+          ipv4_address: 172.21.0.109
+  open5gs-upf:
+      container_name: "open5gs-upf"
+      image: registry.gitlab.com/infinitydon/registry/open5gs-aio:v2.4.9-prom
+      cap_add:
+      - NET_ADMIN
+      - SYS_ADMIN
+      cap_drop:
+      - ALL
+      privileged: true
+      command: >
+        sh -c  "ip tuntap add name ogstun mode tun &&
+                ip addr add 10.45.0.1/16 dev ogstun &&
+                sysctl -w net.ipv6.conf.all.disable_ipv6=0 &&
+                ip link set ogstun up &&
+                echo 1 > /proc/sys/net/ipv4/ip_forward &&
+                iptables -t nat -A POSTROUTING -s 10.45.0.0/16 ! -o ogstun -j MASQUERADE &&
+                open5gs-upfd -c /open5gs/configs/upf.yaml"
+      volumes:
+      - ./ipvs-srsran-open5gs-configs/open5gs-configs/upf.yaml:/open5gs/configs/upf.yaml
+      networks:
+        open5gs:
+          ipv4_address: 172.21.0.110
+  mme-lb:
+      container_name: "mme-lb"
+      tty: true
+      image: ubuntu:focal
+      privileged: true
+      command: >
+        sh -c  "apt-get update && apt-get install -y iptables ipvsadm iproute2 inetutils-ping fping tcpdump &&  
+        ip link set up tunl0 && ip addr add 20.20.20.1 dev tunl0 && echo 1 > /proc/sys/net/ipv4/ip_forward && 
+        bash /root/ipvs.sh"
+      volumes:
+      - ./ipvs-srsran-open5gs-configs/ipvs-config/ipvs.sh:/root/ipvs.sh
+      networks:
+        default:
+          ipv4_address: 172.21.0.111
+  srsran:
+      container_name: "srsran"
+      image: registry.gitlab.com/infinitydon/registry/srslte:latest
+      tty: true
+      privileged: true   
+      command: >
+        sh -c "ip route add 20.20.20.1 via 172.21.0.111 && bash"  
+      volumes:
+      - ./ipvs-srsran-open5gs-configs/srsLTE-config/enb/enb.conf:/srsLTE/build/srsenb/src/enb.conf
+      - ./ipvs-srsran-open5gs-configs/srsLTE-config/enb/drb.conf:/srsLTE/build/srsenb/src/drb.conf
+      - ./ipvs-srsran-open5gs-configs/srsLTE-config/enb/rr.conf:/srsLTE/build/srsenb/src/rr.conf
+      - ./ipvs-srsran-open5gs-configs/srsLTE-config/enb/sib.conf:/srsLTE/build/srsenb/src/sib.conf
+      - ./ipvs-srsran-open5gs-configs/srsLTE-config/ue/ue.conf:/srsLTE/build/srsue/src/ue.conf
+      depends_on:
+      - mme-lb
+      networks:
+          default:
+              ipv4_address: 172.21.0.112
+
+networks:
+   open5gs:
+      driver: bridge
+      enable_ipv6: false
+      ipam:
+        driver: default
+        config:
+          - subnet: 172.21.0.0/24
+            gateway: 172.21.0.1             

@@ -1,0 +1,9 @@
+logger:
+    file: /var/log/open5gs/sgwu.log
+parameter:
+    no_ipv6: true
+sgwu:
+    gtpu:
+       dev: eth0
+    pfcp:
+       dev: eth0

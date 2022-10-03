@@ -1,0 +1,13 @@
+logger:
+    file: /var/log/open5gs/sgwc.log
+parameter:
+    no_ipv6: true
+sgwc:
+    gtpc:
+       dev: eth0
+    pfcp:
+       dev: eth0
+sgwu:
+  pfcp:
+    - addr: 172.21.0.108
+      apn: internet

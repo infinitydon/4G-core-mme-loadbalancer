@@ -31,7 +31,9 @@ wget https://github.com/k8snetworkplumbingwg/multus-cni/archive/refs/tags/v3.9.1
 
 tar -xzf v3.9.1.tar.gz
 
-kubectl apply -f multus-cni-3.9.1/deployments/multus-daemonset-thick-plugin.yml
+kubectl apply -f multus/multus-cni-3.9.1/deployments/multus-daemonset.yml
+
+kubectl create -f multus/nad-local-bridge.yaml
 
 docker network create --subnet 172.20.0.0/16 ran-core
 
