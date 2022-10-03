@@ -30,9 +30,9 @@ mme:
 sgwc:
     gtpc:
       - addr: 172.21.0.107
-smf:
-  gtpc:
-    - addr: 172.21.0.109
+sgwc:
+    gtpc:
+      - addr: 172.21.0.107
 metrics:
     addr: 0.0.0.0
     port: 9090
