@@ -32,7 +32,7 @@ spec:
           {
              "name" : "docker-network",
              "interface": "eth1",
-             "ips": ["172.18.0.124/16"]
+             "ips": ["172.20.128.4/16"]
           }
           ]'     
       labels:
