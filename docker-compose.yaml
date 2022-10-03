@@ -168,7 +168,7 @@ services:
       volumes:
       - ./ipvs-srsran-open5gs-configs/ipvs-config/ipvs.sh:/root/ipvs.sh
       networks:
-        default:
+        open5gs:
           ipv4_address: 172.21.0.111
   srsran:
       container_name: "srsran"
@@ -186,7 +186,7 @@ services:
       depends_on:
       - mme-lb
       networks:
-          default:
+          open5gs:
               ipv4_address: 172.21.0.112
 volumes:
   mongodbdata-open5gs-5g: {}
