@@ -4,7 +4,6 @@ Repo is to show how an IPVS LB can be used for multiple MMEs in a 4G core.
 
 Summary of software used:
 
-- 
 - Open5gs 4G core running in docker container
 - IPVS Loadbalancer running in docker container (DSR scheme using tunnel mode)
 - srsRAN simulator running in docker container
