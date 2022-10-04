@@ -58,7 +58,7 @@ services:
                echo 1 > /proc/sys/net/ipv4/ip_forward && 
                open5gs-mmed -c /open5gs/configs/mme-1.yaml"
       volumes:
-      - ./ipvs-srsran-open5gs-configs/open5gs-configs/mme.yaml:/open5gs/configs/mme-1.yaml
+      - ./ipvs-srsran-open5gs-configs/open5gs-configs/mme-1.yaml:/open5gs/configs/mme-1.yaml
       - ./ipvs-srsran-open5gs-configs/open5gs-configs/mme-1-diameter.yaml:/open5gs/config-map/mme-1-diameter.yaml
       networks:
         open5gs:
@@ -83,7 +83,7 @@ services:
                echo 1 > /proc/sys/net/ipv4/ip_forward && 
                open5gs-mmed -c /open5gs/configs/mme-2.yaml"
       volumes:
-      - ./ipvs-srsran-open5gs-configs/open5gs-configs/mme.yaml:/open5gs/configs/mme-2.yaml
+      - ./ipvs-srsran-open5gs-configs/open5gs-configs/mme-2.yaml:/open5gs/configs/mme-2.yaml
       - ./ipvs-srsran-open5gs-configs/open5gs-configs/mme-2-diameter.yaml:/open5gs/config-map/mme-2-diameter.yaml
       networks:
         open5gs:
@@ -93,7 +93,8 @@ services:
       image: registry.gitlab.com/infinitydon/registry/open5gs-aio:v2.4.9-prom
       command: ["open5gs-hssd", "-c", "/open5gs/configs/hss.yaml"]
       depends_on:
-      - mongodb        
+      - mongodb
+      - webui
       volumes:
       - ./ipvs-srsran-open5gs-configs/open5gs-configs/hss.yaml:/open5gs/configs/hss.yaml
       - ./ipvs-srsran-open5gs-configs/open5gs-configs/hss-diameter.yaml:/open5gs/config-map/hss-diameter.yaml
