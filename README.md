@@ -69,7 +69,7 @@ sudo ip route add 10.240.0.0/16 via 172.18.0.3
 **_Inside MME-LB container. no need to run, it has been included in the docker-compose_**
 
 ```
-tcpdump -nnni eth0 sctp port 36412
+tcpdump -nnni any sctp port 36412
 ```
 
 **_Inside MongoDB POD_**
