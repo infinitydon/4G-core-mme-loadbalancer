@@ -6,7 +6,7 @@ parameter:
 mme:
     freeDiameter: /open5gs/config-map/mme-1-diameter.yaml
     s1ap:
-        addr: 0.0.0.0
+        addr: 20.20.20.1
     gtpc:
         dev: eth0
     gummei:
