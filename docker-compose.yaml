@@ -189,7 +189,7 @@ services:
       tty: true
       privileged: true   
       command: >
-        sh -c "ip route add 20.20.20.1 via 172.21.0.111 && bash"  
+        sh -c "ip route add 20.20.20.1 via 172.21.0.111 && ip netns add ue1 && bash"  
       volumes:
       - ./ipvs-srsran-open5gs-configs/srsLTE-config/enb/enb.conf:/srsLTE/build/srsenb/src/enb.conf
       - ./ipvs-srsran-open5gs-configs/srsLTE-config/enb/drb.conf:/srsLTE/build/srsenb/src/drb.conf
@@ -203,8 +203,6 @@ services:
               ipv4_address: 172.21.0.112
 volumes:
   mongodbdata-open5gs-5g: {}
-  mytb-data:
-    external: true
 networks:
    open5gs:
       driver: bridge
