@@ -41,6 +41,10 @@ services:
   open5gs-mme-1:
       container_name: "open5gs-mme-1"
       image: registry.gitlab.com/infinitydon/registry/open5gs-aio:v2.4.9-prom
+      depends_on:
+      - open5gs-hss
+      - open5gs-sgwc
+      - open5gs-smf       
       privileged: true
       command: >
         sh -c "ip link set up tunl0 && 
@@ -62,6 +66,10 @@ services:
   open5gs-mme-2:
       container_name: "open5gs-mme-2"
       image: registry.gitlab.com/infinitydon/registry/open5gs-aio:v2.4.9-prom
+      depends_on:
+      - open5gs-hss
+      - open5gs-sgwc
+      - open5gs-smf      
       privileged: true
       command: >
         sh -c "ip link set up tunl0 && 
@@ -84,6 +92,8 @@ services:
       container_name: "open5gs-hss"
       image: registry.gitlab.com/infinitydon/registry/open5gs-aio:v2.4.9-prom
       command: ["open5gs-hssd", "-c", "/open5gs/configs/hss.yaml"]
+      depends_on:
+      - mongodb        
       volumes:
       - ./ipvs-srsran-open5gs-configs/open5gs-configs/hss.yaml:/open5gs/configs/hss.yaml
       - ./ipvs-srsran-open5gs-configs/open5gs-configs/hss-diameter.yaml:/open5gs/config-map/hss-diameter.yaml
